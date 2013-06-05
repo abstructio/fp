@@ -1,0 +1,60 @@
+html, body{
+    margin:0;
+    font-family:Tahoma, Arial;
+}
+
+section{
+    width:970px;
+    height:80%;
+    position:absolute;
+    left:50%;
+    margin-left:-485px;
+    margin-top:10%;
+    /*background-color:#e6e6e6;*/
+    padding:8px;
+}
+
+section.present{
+    opacity:1;
+    z-index:300;
+    -webkit-animation: leftfadeout 1s 1 ease; /* Safari and Chrome */
+}
+
+section iframe{
+    border:0px;
+    width:970px;
+    height:800px;
+}
+
+section.future{
+    opacity:0;
+    -webkit-animation: leftfadeout 1s  1  ease reverse; /* Safari and Chrome */
+}
+
+section.past{
+    opacity:0;
+    -webkit-animation: leftfadeout 1s  1  ease reverse; /* Safari and Chrome */
+}
+
+@-webkit-keyframes leftfadeout{
+    from{
+        opacity:1;
+        -webkit-transform:translate(0%, 0%);
+    }
+    to{
+        opacity:0;
+        -webkit-transform:translate(-50%, 0%);
+    }
+}
+
+@-webkit-keyframes rigthfadeIn{
+    from{
+        opacity:1;
+        -webkit-transform:translate(0%, 0%);
+    }
+    to{
+        opacity:0;
+        -webkit-transform:translate(50%, 0%);
+    }
+}
+
