@@ -1,0 +1,46 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Slide</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="slides"></div>
+        <aside id="panel" style="opacity:0;">:<input type="text"></aside>
+        <script type="application/javascript" src="show.js"></script>
+        <script type="application/javascript">
+            var p = {
+                "slides":[
+                    {
+                        "title":"Inhalt",
+                        "content":"<p>Hello World</p>"
+                    },
+                    {
+                        "title":"Was ist Go?",
+                        "content":"<iframe src='http://golang.org/'></iframe>"
+                    },
+                    {
+                        "title":"Wieso Go?",
+                        "content":"<ul><li>Erfahrung</li><li>Schnell</li><li>Zuverlässig</li></ul>"
+                    },
+                    {
+                        "title":"Darwin",
+                        "content":"<strong>Besser als jedes generische Javascript-Projekt</strong>"
+                    },
+                    {
+                        "title":"Impressionen aus dem Modul 306",
+                        "content":"<p style='font-size:50px;'>┌∩┐(>_<)┌∩┐</p>"
+                    },
+                    {
+                        "title":"Vielen Dank",
+                        "content":'<img src="http://golang.org/doc/gopher/frontpage.png">'
+                    }
+                    
+                ]
+            }
+            
+            show.slides = p;
+            show.init();
+        </script>
+    </body>
+</html>
