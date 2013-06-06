@@ -12,6 +12,7 @@ section{
     margin-top:5%;
     /*background-color:#e6e6e6;*/
     padding:8px;
+    opacity:0;
 }
 
 section.present{

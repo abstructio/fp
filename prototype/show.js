@@ -5,7 +5,7 @@ var show = (function(document,undefined){
     self.index = 0;
     
     self.init = function(){
-        var slides = this.slides.slides;
+        var slides = this.slides;
         var title, content, section;
         var container = document.getElementById("slides");
         for(var i = 0; i < slides.length; i++){
@@ -22,121 +22,49 @@ var show = (function(document,undefined){
                 container.appendChild(section);
                 
                 section.style.webkitAnimationPlayState = "paused";
-            
-                if(i == 0){
-                    section.classList.add("present");
-                }else{
-                    section.classList.add("future");
-                }
+                section.style.webkitAnimationDuration = "2s";
             
                 s.e = section;
+                if(i == 0){
+                    s.e.style.opacity = 1;
+                }
         }
     };
     
     var jump = function(index){
         var last = self.index;
         
-        if(index == last){
-            return;
-        }
-        
-        if(index >= self.slides.slides.length){
-            return
-        }
-        
-        var now = self.slides.slides[self.index].e;
-        
-        self.index = index;
-        var next = self.slides.slides[index].e;
-        
-        for(var i = self.index; i < self.slides.slides.length; i++){
-            self.slides.slides[i].e.classList.remove("future");
-            self.slides.slides[i].e.classList.remove("present");
-            self.slides.slides[i].e.classList.remove("past");
-            self.slides.slides[i].e.classList.add("future");
-        }
-        
-        for(var i = 0; i < index; i++){
-            console.log(self.slides.slides[i])
-            self.slides.slides[i].e.classList.remove("future");
-            self.slides.slides[i].e.classList.remove("present");
-            self.slides.slides[i].e.classList.remove("past");
-            self.slides.slides[i].e.classList.add("past");
-        }
-        
-        next.classList.remove("future");
-        next.classList.remove("past");
-        next.classList.remove("present");
-        
-        now.classList.remove("future");
-        now.classList.remove("past");
-        now.classList.remove("present");
+        var now = self.slides[last].e;
+        var future = self.slides[index].e;
         
         
-        now.classList.add("present");
-        
-        
-        
-        if(last < index){
-            next.classList.add("future")
-            now.addEventListener("webkitAnimationEnd", function(){
-            this.style.webkitAnimationPlayState = "paused";
-            this.classList.add("past");
-            this.classList.remove("present");
-            this.removeEventListener("webkitAnimationEnd");
-        });
-        
-        next.addEventListener("webkitAnimationEnd", function(){
-            this.style.webkitAnimationPlayState = "paused";
-            this.classList.add("present");
-            this.classList.remove("future");
-            this.removeEventListener("webkitAnimationEnd");
-        });
-        
-        //now.classList.add("leftFadeOut");
-        //next.classList.add("leftFadeIn");
-        
-        
-        now.style.webkitAnimationPlayState = "running";
-        next.style.webkitAnimationPlayState = "running";
         
         now.addEventListener("webkitAnimationStart", function(){
             this.style.opacity = 0;
         });
         
-        next.addEventListener("webkitAnimationStart", function(){
+        now.addEventListener("webkitTransitionEnd", function(){
+            this.style.webkitAnimationName = "";
+            this.style.webkitAnimationPlayState = "paused";
+        }, false);
+        
+        future.addEventListener("webkitAnimationStart", function(){
             this.style.opacity = 1;
         });
+        
+        future.addEventListener("webkitAnimationEnd", function(){
+            this.style.webkitAnimationName = "";
+            this.style.webkitAnimationPlayState = "paused";
+        }, false);
+        
+        
+        future.style.webkitAnimationName = "leftfadeout";
+        future.style.webkitAnimationDirection = "reverse";
+        future.style.webkitAnimationPlayState ="running";
+        
+        now.style.webkitAnimationName = "leftfadeout";
+        now.style.webkitAnimationPlayState = "running";
                 
-                return;
-                
-        }
-        
-        next.classList.add("past")
-            now.addEventListener("webkitAnimationEnd", function(){
-                this.classList.add("future");
-                this.style.webkitAnimationPlayState = "paused";    
-                this.classList.remove("present");
-                    this.removeEventListener("webkitAnimationEnd");
-                });
-        
-            next.addEventListener("webkitAnimationEnd", function(){
-                this.classList.add("present");
-                this.style.webkitAnimationPlayState = "paused";
-                this.classList.remove("past");
-                this.removeEventListener("webkitAnimationEnd");
-            });
-        
-            now.style.webkitAnimationPlayState = "running";
-            next.style.webkitAnimationPlayState = "running";
-        
-            now.addEventListener("webkitAnimationStart", function(){
-                this.style.opacity = 0;
-            });
-        
-            next.addEventListener("webkitAnimationStart", function(){
-                this.style.opacity = 1;
-            });
     };
     
     var input = document.getElementById("panel");
