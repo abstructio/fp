@@ -40,7 +40,7 @@ var show = (function(document,undefined){
             return;
         }
         
-        if(index > self.slides.slides.length){
+        if(index >= self.slides.slides.length){
             return
         }
         
@@ -172,8 +172,10 @@ var show = (function(document,undefined){
             event.preventDefault();
             return
         }
+
+	console.log(c);
         
-        if(c === 190 && event.shiftKey){
+        if(c === 190 && event.shiftKey || c === 186 ){
             var l = input.style.opacity^1;
             
             input.style.opacity = l;
