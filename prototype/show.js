@@ -54,7 +54,7 @@ var slide = (function (document, window, undefined) {
         for (var i = 0; i < steps.length; i++) {
             elem = steps[i];
             i == 0 ? elem.style.opacity = 1 : elem.style.opacity = 0;
-            if(elem.attributes["sclass"]){
+            if(i == 0 &&elem.attributes["sclass"]){
                 $("show").classList.add(elem.attributes["sclass"].value);
             }
             stop(elem, true);
@@ -80,7 +80,8 @@ var slide = (function (document, window, undefined) {
         var leftout = index < step;
         index = step;
         
-        if(!next.attributes["sclass"] && now.attributes["sclass"]){
+        
+        if(now.attributes["sclass"]){
             $("show").classList.remove(now.attributes["sclass"].value);
         }
         
