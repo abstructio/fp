@@ -38,21 +38,21 @@ section h2{
 @-webkit-keyframes leftFadeOut{
     from{
         opacity:1;
-        -webkit-transform:translate(0%, 0%);
+        -webkit-transform:translate(0%, 0%) scale(1);
     }
     to{
         opacity:0;
-        -webkit-transform:translate(-200%, 0%);
+        -webkit-transform:translate(-200%, 0%) scale(0.2);
     }
 }
 
 @-webkit-keyframes rigthFadeIn{
     from{
         opacity:0;
-        -webkit-transform:translate(200%, 0%);
+        -webkit-transform:translate(200%, 0%) scale(0.2);
     }
     to{
         opacity:1;
-        -webkit-transform:translate(0%, 0%);
+        -webkit-transform:translate(0%, 0%) scale(1);
     }
 }
