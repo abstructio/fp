@@ -39,7 +39,7 @@ var slide = (function (document, window, undefined) {
             e.style.webkitAnimationDirection = "";
             e.style.opacity = 0;
             e.style.zIndex = 0;
-            e.style.webkitTimingFunction = "ease";
+            e.style.webkitTimingFunction = "ease-in-out";
             
             console.log(e);
         }
