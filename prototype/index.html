@@ -5,8 +5,35 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        <div id="slides"></div>
-        <aside id="panel" style="opacity:0;">:<input type="text"></aside>
+        <div id="show">
+            <section class="title">
+                    <h1>Wieso Go?</h1>
+                    <p>Yannik Dällenbach<p>
+            </section>
+            <section>
+                    <h1>Cool</h1>
+                    <p>"go is awesome"-anon</p>
+            </section>
+            <section>
+                    <h1>Woot?</h1>
+                    <iframe src='http://golang.org/' width="100%" height="100%"></iframe>
+            </section>
+            <section>
+                    <h1>Go</h1>
+                    <ul style="font-size:150%;">
+                        <li>Test</li>
+                        <li>Test2</li>
+                        <li>Test3</li>
+                    </ul>
+            </section>
+            <section>
+                    <h1>Impressionen aus dem Modul 306</h1>
+                    <p style="font-size:50px;">┌∩┐(&gt;_&lt;)┌∩┐</p>
+            </section>
+            <section>
+                    <h1>Vielen Dank!</h1>
+            </section>
+        </div>
         <script type="application/javascript" src="show.js"></script>
         <script type="application/javascript">
             var p = {
@@ -15,7 +42,7 @@
                         "title":"Inhalt",
                         "content":"<p>Hello World</p>",
                         "in":"leftin",
-                        "out":"leftin",
+                        "out":"leftout",
                     },
                     {
                         "title":"Was ist Go?",
@@ -43,7 +70,7 @@
                 ]
             }
             
-            show.slides = p;
+            show.slides = p.slides;
             show.init();
         </script>
     </body>

@@ -1,120 +1,148 @@
-var show = (function(document,undefined){
-    var self ={};
+var slide = (function (document, window, undefined) {
+
+    var $ = function (id) {
+        return document.getElementById(id)
+    };
+
+    var $$ = function (elem) {
+        var elem = elem || document;
+        return elem.getElementsByTagName("section");
+    }
+
     
-    self.slides = {};
-    self.index = 0;
+
+    var stop = function (elem, stop) {
+        var v = stop ? "paused" : "running";
+        elem.style.webkitAnimationPlayState = v;
+    }
     
-    self.init = function(){
-        var slides = this.slides;
-        var title, content, section;
-        var container = document.getElementById("slides");
-        for(var i = 0; i < slides.length; i++){
-                s = slides[i];
-                title = document.createElement("h2");
-                content = document.createElement("div");
-                section = document.createElement("section");
-                    
-                title.innerHTML = s.title;
-                content.innerHTML = s.content;
-                    
-                section.appendChild(title);
-                section.appendChild(content);
-                container.appendChild(section);
-                
-                section.style.webkitAnimationPlayState = "paused";
-                section.style.webkitAnimationDuration = "2s";
+    var starter = function(){
+        this.style.opacity = this.style.opacity==1?0:1;
+        this.removeEventListener("webkitAnimationStart");
+    }
+
+    var stopper = function () {
+        this.style.webkitAnimationPlayState = "paused";
+        this.style.webkitAnimationName = "";
+        this.style.webkitAnimationDirection = "";
+        this.removeEventListener("webkitAnimationEnd", stopper);
+    }
+    
+    var steps = $$($("show"));
+    
+    var reset = function(){
+        var e;
+        for(var i = 0; i < steps.length; i++){
+            e = steps[i];
+            e.style.webkitAnimationPlayState = "paused";
+            e.style.webkitAnimationName = "";
+            e.style.webkitAnimationDirection = "";
+            e.style.opacity = 0;
+            e.style.zIndex = 0;
+            e.style.webkitTimingFunction = "ease";
             
-                s.e = section;
-                if(i == 0){
-                    s.e.style.opacity = 1;
-                }
+            console.log(e);
         }
-    };
+    }
+
     
-    var jump = function(index){
-        var last = self.index;
-        
-        var now = self.slides[last].e;
-        var future = self.slides[index].e;
-        
-        
-        
-        now.addEventListener("webkitAnimationStart", function(){
-            this.style.opacity = 0;
-        });
-        
-        now.addEventListener("webkitTransitionEnd", function(){
-            this.style.webkitAnimationName = "";
-            this.style.webkitAnimationPlayState = "paused";
-        }, false);
-        
-        future.addEventListener("webkitAnimationStart", function(){
-            this.style.opacity = 1;
-        });
-        
-        future.addEventListener("webkitAnimationEnd", function(){
-            this.style.webkitAnimationName = "";
-            this.style.webkitAnimationPlayState = "paused";
-        }, false);
-        
-        
-        future.style.webkitAnimationName = "leftfadeout";
-        future.style.webkitAnimationDirection = "reverse";
-        future.style.webkitAnimationPlayState ="running";
-        
-        now.style.webkitAnimationName = "leftfadeout";
-        now.style.webkitAnimationPlayState = "running";
-                
-    };
-    
-    var input = document.getElementById("panel");
-    input.childNodes[1].addEventListener("keydown", function(event){
-        if(event.keyCode === 13){
-            var v = this.value;
-            this.value = "";
-            input.style.opacity = 0;
-            this.blur();
-            jump(parseInt(v));
+    var index = 0;
+
+    var elem;
+
+    (function init() {
+        for (var i = 0; i < steps.length; i++) {
+            elem = steps[i];
+            i == 0 ? elem.style.opacity = 1 : elem.style.opacity = 0;
+            stop(elem, true);
         }
-    });
-    
-    
-    document.body.addEventListener("keydown", function(event){
-        var c = event.keyCode;
-        if(c === 37 || c === 39 || c === 32)event.preventDefault();
-    });
-    
-    document.body.addEventListener("keyup", function(event){
-        var c = event.keyCode;
+    })(document);
+
+
+    var api = {};
+
+    api.jump = function (step) {
+        if (index == step) return;
+        if (step >= steps.length) return;
+        if (step < 0) return;
         
-        /*left*/
-        if(c === 37){
-            jump(self.index-1);
-            event.preventDefault();
-            return
-        }
-        
-        /*Right or Spacebar*/
-        if(c === 39 || c === 32){
-            jump(self.index+1);
-            event.preventDefault();
-            return
+        reset(index);
+
+        var now = steps[index];
+        now.style.opacity = 1;
+        now.style.zIndex = 0;
+        var next = steps[step];
+        next.style.zIndex = 100;
+
+        var leftout = index < step;
+        index = step;
+
+        if (leftout) {
+            now.style.webkitAnimationName = "leftFadeOut";
+            now.style.webkitAnimationDuration = "1s";
+            next.style.webkitAnimationName = "rigthFadeIn";
+            next.style.webkitAnimationDuration = "1s";
+
+            now.addEventListener("webkitAnimationStart", starter, false);
+
+            now.addEventListener("webkitAnimationEnd",stopper, false);
+
+            next.addEventListener("webkitAnimationStart", starter, false);
+
+            next.addEventListener("webkitAnimationEnd",stopper, false);
+
+
+        } else {
+            next.style.webkitAnimationName = "leftFadeOut";
+            next.style.webkitAnimationDuration = "1s";
+            next.style.webkitAnimationDirection = "reverse";
+            now.style.webkitAnimationName = "rigthFadeIn";
+            now.style.webkitAnimationDuration = "1s";
+            now.style.webkitAnimationDirection = "reverse";
+
+            now.addEventListener("webkitAnimationStart", starter, false);
+
+            now.addEventListener("webkitAnimationEnd",stopper, false);
+
+            next.addEventListener("webkitAnimationStart", starter, false);
+
+            next.addEventListener("webkitAnimationEnd",stopper, false);
         }
 
-	console.log(c);
-        
-        if(c === 190 && event.shiftKey || c === 186 ){
-            var l = input.style.opacity^1;
-            
-            input.style.opacity = l;
-            if(l== 1){
-                //input.input.focus();
-                input.childNodes[1].focus();
+        stop(now, false);
+        stop(next, false);
+        /*now.style.opacity = 0;
+        next.style.opacity = 1;*/
+    };
+
+
+    (function addControlls(document) {
+        document.body.addEventListener("keydown", function (event) {
+            var c = event.keyCode;
+            if (c === 37 || c === 39 || c === 32) event.preventDefault();
+        });
+
+        document.body.addEventListener("keyup", function (event) {
+            var c = event.keyCode;
+
+            /*left*/
+            if (c === 37) {
+                api.jump(index - 1);
+                event.preventDefault();
+                return
             }
-        }
-    });
-    
-    
-    
-    return self;
-}(document));
+
+            /*Right or Spacebar*/
+            if (c === 39 || c === 32) {
+                api.jump(index + 1);
+                event.preventDefault();
+                return
+            }
+        });
+    })(document);
+
+    window.slide = api;
+
+    return api;
+
+}(document, window));
