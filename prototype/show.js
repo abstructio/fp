@@ -126,6 +126,14 @@ var slide = (function (document, window, undefined) {
         /*now.style.opacity = 0;
         next.style.opacity = 1;*/
     };
+    
+    api.next = function(){
+        this.jump(index +1);
+    };
+    
+    api.prev = function(){
+        this.jump(index -1);
+    };
 
 
     (function addControlls(document) {
@@ -139,14 +147,14 @@ var slide = (function (document, window, undefined) {
 
             /*left*/
             if (c === 37) {
-                api.jump(index - 1);
+                api.prev();
                 event.preventDefault();
                 return
             }
 
             /*Right or Spacebar*/
             if (c === 39 || c === 32) {
-                api.jump(index + 1);
+                api.next();
                 event.preventDefault();
                 return
             }
