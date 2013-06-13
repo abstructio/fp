@@ -9,8 +9,6 @@ var slide = (function (document, window, undefined) {
         return elem.getElementsByTagName("section");
     }
 
-    
-
     var stop = function (elem, stop) {
         var v = stop ? "paused" : "running";
         elem.style.webkitAnimationPlayState = v;
@@ -26,6 +24,20 @@ var slide = (function (document, window, undefined) {
         this.style.webkitAnimationName = "";
         this.style.webkitAnimationDirection = "";
         this.removeEventListener("webkitAnimationEnd", stopper);
+    }
+
+    var anim = function(elem, out){
+    	if(out){
+		if(elem.attributes["aout"]){
+			return elem.attributes["aout"].value;
+		}
+		return "fadeOut";
+	}
+
+	if(elem.attributes["ain"]){
+		return elem.attributes["ain"].value;
+	}
+	return "fadeIn"
     }
     
     var steps = $$($("show"));
@@ -90,9 +102,9 @@ var slide = (function (document, window, undefined) {
         }
 
         if (leftout) {
-            now.style.webkitAnimationName = "leftFadeOut";
+            now.style.webkitAnimationName = anim(now, true);
             now.style.webkitAnimationDuration = "1s";
-            next.style.webkitAnimationName = "rigthFadeIn";
+            next.style.webkitAnimationName = anim(next, false);
             next.style.webkitAnimationDuration = "1s";
 
             now.addEventListener("webkitAnimationStart", starter, false);
@@ -105,10 +117,10 @@ var slide = (function (document, window, undefined) {
 
 
         } else {
-            next.style.webkitAnimationName = "leftFadeOut";
+            next.style.webkitAnimationName = anim(next, true);
             next.style.webkitAnimationDuration = "1s";
             next.style.webkitAnimationDirection = "reverse";
-            now.style.webkitAnimationName = "rigthFadeIn";
+            now.style.webkitAnimationName = anim(now, false);
             now.style.webkitAnimationDuration = "1s";
             now.style.webkitAnimationDirection = "reverse";
 
@@ -123,8 +135,6 @@ var slide = (function (document, window, undefined) {
 
         stop(now, false);
         stop(next, false);
-        /*now.style.opacity = 0;
-        next.style.opacity = 1;*/
     };
     
     api.next = function(){
