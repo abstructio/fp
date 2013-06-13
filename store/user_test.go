@@ -27,6 +27,9 @@ func TestSha256(t *testing.T) {
 }
 
 func TestInsertAndUpdateUser(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 	drop()
 
 	user := NewUser("ioboi", "Yannik", "Dällenbach", "test")
@@ -60,6 +63,9 @@ func TestInsertAndUpdateUser(t *testing.T) {
 }
 
 func TestGetUserById(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 	drop()
 
 	user := NewUser("ioboi", "Yannik", "Dällenbach", "test")
@@ -80,6 +86,9 @@ func TestGetUserById(t *testing.T) {
 }
 
 func TestIfUsernameIsAviable(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 	drop()
 
 	user := NewUser("ioboi", "Yannik", "Dällenbach", "test")
@@ -95,6 +104,9 @@ func TestIfUsernameIsAviable(t *testing.T) {
 }
 
 func TestUpdatePasswordHash(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 	drop()
 
 	user := NewUser("ioboi", "Yannik", "Dällenbach", "test")
@@ -119,6 +131,9 @@ func TestUpdatePasswordHash(t *testing.T) {
 }
 
 func TestLogin(t *testing.T) {
+	if testing.Short() {
+		t.Skip("skipping test in short mode.")
+	}
 	drop()
 
 	user := NewUser("ioboi", "Yannik", "Dällenbach", "test")
